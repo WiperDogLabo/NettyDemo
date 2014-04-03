@@ -1,19 +1,25 @@
 // The following '@Grab()' annotation lines are just sample.
 // Please rewrite it.
-@Grab(group='io.netty', module='netty', version='3.9.0.Final')
-// @Grab(....)
-// @Grab(....)
-// @Grab(....)
-// @Grab(....)
+@Grab(group='io.netty', module='netty', version='3.6.2.Final')
+@Grab(group='net.javaforge.netty', module='netty-servlet-bridge', version='1.0.0-SNAPSHOT')
+@Grab(group='org.slf4j', module='slf4j-log4j12', version='1.7.0')
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse
 import net.javaforge.netty.servlet.bridge.ServletBridgeChannelPipelineFactory;
 import net.javaforge.netty.servlet.bridge.config.ServletConfiguration;
 import net.javaforge.netty.servlet.bridge.config.WebappConfiguration;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
@@ -23,39 +29,21 @@ import groovy.io.FileType;
 
 public class NettyServletHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(NettyServletHandler.class);
-    private static final properties = MonitorJobConfigLoader.getProperties();
-    public static final String NETTY_PORT = "netty.port";
-
     public static void main(String[] args) {
 
-//// Commented out the servlet auto deploying code, because...
-//// Just for make this sample programe keep in simple,
-////  please write code of HttpServlet implementation class into this file.
-//
-//        // Path to folder contains servlet
-//        def dirServlet = new File(properties.get(ResourceConstants.SERVLET_DIRECTORY))
-//
-//        // Configure the server.
-//        final ServerBootstrap bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory(
-//            Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
-//
-//        // Registering servlet in servlet container
-//        WebappConfiguration webapp = new WebappConfiguration();
-//        if (dirServlet.exists()) {
-//            dirServlet.eachFileRecurse(FileType.FILES) { file ->
-//                def servletClass = new GroovyClassLoader().parseClass(new File(file.getAbsolutePath()))
-//                webapp.addServletConfigurations(new ServletConfiguration(servletClass, "/" + servletClass.getName() + "/*"));
-//            }
-//        }
+    // Configure the server.
+        final ServerBootstrap bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory(
+            Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
+        WebappConfiguration webapp = new WebappConfiguration();
+		webapp.addServletConfigurations(new ServletConfiguration(TestServlet.class, "/TestServlet/").addInitParameter("param", "value"));
+
         // Set up the event pipeline factory.
         final ServletBridgeChannelPipelineFactory servletBridge = new ServletBridgeChannelPipelineFactory(webapp);
         bootstrap.setPipelineFactory(servletBridge);
 
         // Bind and start to accept incoming connections.
-        def port = Integer.parseInt(System.getProperty(NETTY_PORT));
-        final Channel serverChannel = bootstrap.bind(new InetSocketAddress(port));
 
+        final Channel serverChannel = bootstrap.bind(new InetSocketAddress(8080));
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
@@ -66,4 +54,34 @@ public class NettyServletHandler {
         });
 
     }
+}
+
+ class TestServlet extends HttpServlet {
+
+	@Override
+	public void init() {
+		System.out.println("TestServlet init ");
+	}
+
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			System.out.println("Go into doGet()")
+			String params = this.getInitParameter("param");
+			PrintWriter out = response.getWriter();
+			out.println("TestServlet init param : " + params);			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) {
+
+	}
+
+	@Override
+	public void destroy() {
+		System.out.println("TestServlet destroyed ");
+	}
 }
