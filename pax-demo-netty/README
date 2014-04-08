@@ -1,7 +1,6 @@
 This project use for running demo netty server
  Usage : 
-     - Because the demo need to using some OSGi feature as ServiceTracker , directory watcher ..So the demo is building depend on a
-  pax-exam test project 
+     - Because the demo need to using some OSGi feature as ServiceTracker , directory watcher ..So the demo is building depend on a pax-exam test project 
      - Step to run demo : 
          + Build the 'netty-servlet-bridge' project (At root of this repository)
          + Run test of 'pax-demo-netty'
