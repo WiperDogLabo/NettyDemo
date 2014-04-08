@@ -1,5 +1,5 @@
 This is a copy of this repository :
-   https://github.com/bigpuritz/netty-servlet-bridge/tree/master/netty-servlet-bridge/netty-servlet-bridge
+https://github.com/bigpuritz/netty-servlet-bridge/tree/master/netty-servlet-bridge
 
 To using for our purpose in wiperdog , need to change a litle of source code :
  Details: 
