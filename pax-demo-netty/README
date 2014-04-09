@@ -1,0 +1,16 @@
+This project use for running demo netty server
+ Usage : 
+     - Because the demo need to using some OSGi feature as ServiceTracker , directory watcher ..So the demo is building depend on a pax-exam test project 
+     - Step to run demo : 
+         + Build the 'netty-servlet-bridge' project (At root of this repository)
+         + Run test of 'pax-demo-netty'
+      
+
+ Project structure : 
+    + src/test/groovy/org/wiperdog/netty/test/NettyServletManager.groovy
+        - The netty server + servlet handler
+        - The service tracker for tracking service registering
+
+    + src/test/groovy/org/wiperdog/netty/test/ServletListener.groovy
+        - A listener using for directory watcher to watching for groovy folder ,when new groovy file (servlet file) added or modified
+         ,the file will be loaded using GroovyShell and servlet service will be registered
