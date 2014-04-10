@@ -41,9 +41,7 @@ public class NettyServletHandler {
         final ServletBridgeChannelPipelineFactory servletBridge = new ServletBridgeChannelPipelineFactory(webapp);
         bootstrap.setPipelineFactory(servletBridge);
 
-        // Bind and start to accept incoming connections.
 
-        final Channel serverChannel = bootstrap.bind(new InetSocketAddress(8080));
 		//
 		// try to add servlet config after server started...
 		new Thread(new Runnable () {
@@ -56,6 +54,8 @@ public class NettyServletHandler {
 				}
 			}).start();
 		
+        // Bind and start to accept incoming connections.
+        final Channel serverChannel = bootstrap.bind(new InetSocketAddress(8080));
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
