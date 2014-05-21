@@ -7,7 +7,7 @@ This software is the modification version of 'netty-servlet-brigde' open-source 
     + This software using for wiperdog (a database monitoring system - www.wiperdog.org ). Because the orignal version of netty-servlet-brigde do not
       provide ability to adding/updating servlet instance at runtime ,so we need to change source code to do that , here is the change details:
       
-      - Adding getter/setter for 'servlets' in net.javaforge.netty.servlet.bridge.config.WebappConfiguration
+      - Adding getter/setter for 'servlets' property in net.javaforge.netty.servlet.bridge.config.WebappConfiguration
       - Update constructor visibility of "net.javaforge.netty.servlet.bridge.impl.ServletBridgeWebapp" to public
       - When the server started , if new servlet is added at runtime , to make it workfine ,need to initialized it ,so we need get the servlets and : 
 
