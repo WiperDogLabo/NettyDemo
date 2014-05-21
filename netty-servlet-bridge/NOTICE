@@ -6,7 +6,7 @@ This software is the modification version of 'netty-servlet-brigde' open-source 
 - Changelog:
   + Modified source code to make netty-servlet-bridge  work with  OSGi environment
    Details:
-        + This software using for wiperdog (a database monitoring system - www.wiperdog.org ). Because the orignal version of netty-servlet-brigde is can not
+        + This software using for wiperdog (a database monitoring system - www.wiperdog.org ). Because the orignal version of netty-servlet-brigde do not
           provide ability to adding/updating servlet instance at runtime ,so we need to change source code to do that , here is the change details:
           
           - Adding getter/setter for 'servlets' in net.javaforge.netty.servlet.bridge.config.WebappConfiguration
