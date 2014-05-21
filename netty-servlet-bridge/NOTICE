@@ -7,7 +7,7 @@ This software is the modification version of 'netty-servlet-brigde' open-source 
     + This software using for wiperdog (a database monitoring system - www.wiperdog.org ). Because the orignal version of netty-servlet-brigde do not
       provide ability to adding/updating servlet instance at runtime ,so we need to change source code to do that , here is the change details:
       
-      - By default ,whe the server started , if new servlet is added or modified at runtime,the change will not affected .To make the change work fine ,need to initialized servlet  ,so we need : 
+      - By default ,whe the server started , if new servlet is added or modified at runtime,the change will not affected because no change applied to servlet instance.To make the change work fine ,need to initialize/re-initialize servlet  ,so we need : 
 
          1.Check if servlet handler contains a servlet which same as new servlet added then remove it
          2.Adding servlet to servlet handler  : 
